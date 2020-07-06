@@ -1,0 +1,32 @@
+Package: tmsamples
+Type: Package
+Title: Simulate a Term Frequency Matrix From an Topic Model
+Version: 0.0.1
+Authors@R: 
+    c(
+    person(
+        given = "Tommy",
+        family = "Jones",
+        role = c("aut", "cre"),
+        email = "jones.thos.w@gmail.com",
+        comment = c(ORCID = "0000-0001-6457-2452")
+        )
+    )
+Description: Generate synthetic corpora from the parameters of a probabilistic topic
+    model. Used for Tommy Jones's dissertation research. Unlikely to ever be
+    put in a package repository.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Depends:
+    Matrix
+Imports:
+    gtools,
+    Rcpp
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo,
+    RcppThread
+Suggests: 
+    testthat

@@ -1,0 +1,70 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tmsamples
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of tmsamples is to simulate term frequency matrices (DTMs or TCMs) based
+on parameters from real or simulated probabilistic topic models. 
+
+This corpus simulation is a core part of my dissertation research. The basic
+idea is: if you can simulate a corpus using the functional form of a topic model,
+and that corpus retains the gross statistical properties of human language, then
+we can use simulated corpora to derive rules and metrics to fit well specified
+topic models. Conversely, we can avoid pathologically misspecified models.
+
+## Installation
+
+You can install the GitHub version of tmsamples with:
+
+``` r
+library(remotes)
+remotes::install_github("tommyjones/tmsamples")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(tmsamples)
+
+
+Nk <- 4
+Nd <- 50
+Nv <- 1000
+
+alpha <- rgamma(Nk, 0.5)
+
+beta <- generate_zipf(vocab_size = Nv, magnitude = 500, zipf_par = 1.1)
+
+pars <- sample_parameters(alpha, beta, Nd)
+
+doc_lengths <- rpois(Nd, 50)
+
+  dtm <- sample_documents(
+    theta = pars$theta,
+    phi = pars$phi,
+    doc_lengths = doc_lengths,
+    threads = 2 ## threads controls parallel computation
+  )
+
+
+
+```
+
+
