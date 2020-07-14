@@ -48,10 +48,10 @@ pars <- sample_parameters(alpha, beta, Nd)
 
 doc_lengths <- rpois(Nd, 50)
 
-  dtm <- sample_documents(
-    theta = pars$theta,
-    phi = pars$phi,
-    doc_lengths = doc_lengths,
-    threads = 2 ## threads controls parallel computation
-  )
+dtm <- sample_documents(
+  theta = pars$theta,
+  phi = pars$phi,
+  doc_lengths = doc_lengths,
+  threads = 2 ## threads controls parallel computation
+)
 ```
