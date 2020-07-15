@@ -77,6 +77,8 @@ arma::sp_mat sample_documents(
         out(w, d) = out(w, d) + 1;
 
       } // end loop over tokens
+      
+      RcppThread::checkUserInterrupt();
 
     }, // end parallel loop over documents
   threads);
