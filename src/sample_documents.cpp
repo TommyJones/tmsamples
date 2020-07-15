@@ -32,7 +32,8 @@ arma::sp_mat sample_documents(
   const NumericMatrix theta,
   const NumericMatrix phi,
   const std::vector<std::size_t> doc_lengths,
-  std::size_t threads = 1
+  const bool verbose = true,
+  const std::size_t threads = 1
 ) {
 
   // check consistency of inputs
@@ -79,6 +80,11 @@ arma::sp_mat sample_documents(
       } // end loop over tokens
       
       RcppThread::checkUserInterrupt();
+      
+      // progress bar
+      if (verbose) {
+        RcppThread::cout << "=";
+      }
 
     }, // end parallel loop over documents
   threads);
