@@ -21,7 +21,8 @@ using namespace Rcpp;
 //'   i,j entries represent the probability of sampling token j from topic i.
 //' @param doc_lengths Integer vector of document lengths. Must be the same length
 //'   as rows of \code{theta}.
-//' @param threads Integer number of parallel threads.
+//' @param threads Integer number of parallel threads, defaults to 1.
+//' @param verbose Boolean; do you want to print a simple progress bar out to the console?
 //' @return Returns a sparse matrix whose rows represent documents, columns
 //'   represent tokens and i,j entries are the count of token j in document i.
 //' @examples
@@ -33,7 +34,7 @@ arma::sp_mat sample_documents(
   const NumericMatrix phi,
   const std::vector<std::size_t> doc_lengths,
   const bool verbose = true,
-  const std::size_t threads = 1
+  std::size_t threads = 1 // not constant in case user provided is wrong
 ) {
 
   // check consistency of inputs
@@ -83,7 +84,7 @@ arma::sp_mat sample_documents(
       
       // progress bar
       if (verbose) {
-        RcppThread::cout << "=";
+        RcppThread::Rcout << "=";
       }
 
     }, // end parallel loop over documents

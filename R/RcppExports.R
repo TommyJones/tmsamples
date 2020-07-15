@@ -10,14 +10,15 @@
 #'   i,j entries represent the probability of sampling token j from topic i.
 #' @param doc_lengths Integer vector of document lengths. Must be the same length
 #'   as rows of \code{theta}.
-#' @param threads Integer number of parallel threads.
+#' @param threads Integer number of parallel threads, defaults to 1.
+#' @param verbose Boolean; do you want to print a simple progress bar out to the console?
 #' @return Returns a sparse matrix whose rows represent documents, columns
 #'   represent tokens and i,j entries are the count of token j in document i.
 #' @examples
 #' # TODO
 #' @export
-sample_documents <- function(theta, phi, doc_lengths, threads = 1L) {
-    .Call(`_tmsamples_sample_documents`, theta, phi, doc_lengths, threads)
+sample_documents <- function(theta, phi, doc_lengths, verbose = TRUE, threads = 1L) {
+    .Call(`_tmsamples_sample_documents`, theta, phi, doc_lengths, verbose, threads)
 }
 
 # Register entry points for exported C++ functions

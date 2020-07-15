@@ -4,7 +4,7 @@
 \alias{sample_documents}
 \title{Sample a DTM or TCM based on hierarchical multinomial parameters}
 \usage{
-sample_documents(theta, phi, doc_lengths, threads = 1L)
+sample_documents(theta, phi, doc_lengths, verbose = TRUE, threads = 1L)
 }
 \arguments{
 \item{theta}{Matrix where each row is a document, each column is a topic and
@@ -16,7 +16,9 @@ i,j entries represent the probability of sampling token j from topic i.}
 \item{doc_lengths}{Integer vector of document lengths. Must be the same length
 as rows of \code{theta}.}
 
-\item{threads}{Integer number of parallel threads.}
+\item{verbose}{Boolean; do you want to print a simple progress bar out to the console?}
+
+\item{threads}{Integer number of parallel threads, defaults to 1.}
 }
 \value{
 Returns a sparse matrix whose rows represent documents, columns
