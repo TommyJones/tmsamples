@@ -9,25 +9,26 @@
 
 using namespace Rcpp;
 
-// sample_documents
-arma::sp_mat sample_documents(const NumericMatrix theta, const NumericMatrix phi, const std::vector<std::size_t> doc_lengths, const bool verbose, std::size_t threads);
-static SEXP _tmsamples_sample_documents_try(SEXP thetaSEXP, SEXP phiSEXP, SEXP doc_lengthsSEXP, SEXP verboseSEXP, SEXP threadsSEXP) {
+// sample_documents_c
+arma::sp_mat sample_documents_c(const NumericMatrix theta, const NumericMatrix phi, const std::vector<std::size_t> doc_lengths, const int seed, const bool verbose, std::size_t threads);
+static SEXP _tmsamples_sample_documents_c_try(SEXP thetaSEXP, SEXP phiSEXP, SEXP doc_lengthsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const NumericMatrix >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< const NumericMatrix >::type phi(phiSEXP);
     Rcpp::traits::input_parameter< const std::vector<std::size_t> >::type doc_lengths(doc_lengthsSEXP);
+    Rcpp::traits::input_parameter< const int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< const bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< std::size_t >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_documents(theta, phi, doc_lengths, verbose, threads));
+    rcpp_result_gen = Rcpp::wrap(sample_documents_c(theta, phi, doc_lengths, seed, verbose, threads));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _tmsamples_sample_documents(SEXP thetaSEXP, SEXP phiSEXP, SEXP doc_lengthsSEXP, SEXP verboseSEXP, SEXP threadsSEXP) {
+RcppExport SEXP _tmsamples_sample_documents_c(SEXP thetaSEXP, SEXP phiSEXP, SEXP doc_lengthsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP threadsSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_tmsamples_sample_documents_try(thetaSEXP, phiSEXP, doc_lengthsSEXP, verboseSEXP, threadsSEXP));
+        rcpp_result_gen = PROTECT(_tmsamples_sample_documents_c_try(thetaSEXP, phiSEXP, doc_lengthsSEXP, seedSEXP, verboseSEXP, threadsSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -52,20 +53,20 @@ RcppExport SEXP _tmsamples_sample_documents(SEXP thetaSEXP, SEXP phiSEXP, SEXP d
 static int _tmsamples_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("arma::sp_mat(*sample_documents)(const NumericMatrix,const NumericMatrix,const std::vector<std::size_t>,const bool,std::size_t)");
+        signatures.insert("arma::sp_mat(*sample_documents_c)(const NumericMatrix,const NumericMatrix,const std::vector<std::size_t>,const int,const bool,std::size_t)");
     }
     return signatures.find(sig) != signatures.end();
 }
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP _tmsamples_RcppExport_registerCCallable() { 
-    R_RegisterCCallable("tmsamples", "_tmsamples_sample_documents", (DL_FUNC)_tmsamples_sample_documents_try);
+    R_RegisterCCallable("tmsamples", "_tmsamples_sample_documents_c", (DL_FUNC)_tmsamples_sample_documents_c_try);
     R_RegisterCCallable("tmsamples", "_tmsamples_RcppExport_validate", (DL_FUNC)_tmsamples_RcppExport_validate);
     return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tmsamples_sample_documents", (DL_FUNC) &_tmsamples_sample_documents, 5},
+    {"_tmsamples_sample_documents_c", (DL_FUNC) &_tmsamples_sample_documents_c, 6},
     {"_tmsamples_RcppExport_registerCCallable", (DL_FUNC) &_tmsamples_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
 };

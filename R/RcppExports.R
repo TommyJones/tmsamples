@@ -2,6 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Sample a DTM or TCM based on hierarchical multinomial parameters
+#' @keywords internal
 #' @description
 #'   Sample a sparse DTM or TCM based on hierarchical multinomial paramers.
 #' @param theta Matrix where each row is a document, each column is a topic and
@@ -12,13 +13,11 @@
 #'   as rows of \code{theta}.
 #' @param threads Integer number of parallel threads, defaults to 1.
 #' @param verbose Boolean; do you want to print a simple progress bar out to the console?
+#' @param seed Integer for random seed setting
 #' @return Returns a sparse matrix whose rows represent documents, columns
 #'   represent tokens and i,j entries are the count of token j in document i.
-#' @examples
-#' # TODO
-#' @export
-sample_documents <- function(theta, phi, doc_lengths, verbose = TRUE, threads = 1L) {
-    .Call(`_tmsamples_sample_documents`, theta, phi, doc_lengths, verbose, threads)
+sample_documents_c <- function(theta, phi, doc_lengths, seed, verbose = TRUE, threads = 1L) {
+    .Call(`_tmsamples_sample_documents_c`, theta, phi, doc_lengths, seed, verbose, threads)
 }
 
 # Register entry points for exported C++ functions

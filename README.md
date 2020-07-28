@@ -54,4 +54,5 @@ dtm <- sample_documents(
   doc_lengths = doc_lengths,
   threads = 2 ## threads controls parallel computation
 )
+#> ==================================================
 ```

@@ -25,17 +25,17 @@ namespace tmsamples {
         }
     }
 
-    inline arma::sp_mat sample_documents(const NumericMatrix theta, const NumericMatrix phi, const std::vector<std::size_t> doc_lengths, const bool verbose = true, std::size_t threads = 1) {
-        typedef SEXP(*Ptr_sample_documents)(SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_sample_documents p_sample_documents = NULL;
-        if (p_sample_documents == NULL) {
-            validateSignature("arma::sp_mat(*sample_documents)(const NumericMatrix,const NumericMatrix,const std::vector<std::size_t>,const bool,std::size_t)");
-            p_sample_documents = (Ptr_sample_documents)R_GetCCallable("tmsamples", "_tmsamples_sample_documents");
+    inline arma::sp_mat sample_documents_c(const NumericMatrix theta, const NumericMatrix phi, const std::vector<std::size_t> doc_lengths, const int seed, const bool verbose = true, std::size_t threads = 1) {
+        typedef SEXP(*Ptr_sample_documents_c)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_sample_documents_c p_sample_documents_c = NULL;
+        if (p_sample_documents_c == NULL) {
+            validateSignature("arma::sp_mat(*sample_documents_c)(const NumericMatrix,const NumericMatrix,const std::vector<std::size_t>,const int,const bool,std::size_t)");
+            p_sample_documents_c = (Ptr_sample_documents_c)R_GetCCallable("tmsamples", "_tmsamples_sample_documents_c");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_sample_documents(Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(phi)), Shield<SEXP>(Rcpp::wrap(doc_lengths)), Shield<SEXP>(Rcpp::wrap(verbose)), Shield<SEXP>(Rcpp::wrap(threads)));
+            rcpp_result_gen = p_sample_documents_c(Shield<SEXP>(Rcpp::wrap(theta)), Shield<SEXP>(Rcpp::wrap(phi)), Shield<SEXP>(Rcpp::wrap(doc_lengths)), Shield<SEXP>(Rcpp::wrap(seed)), Shield<SEXP>(Rcpp::wrap(verbose)), Shield<SEXP>(Rcpp::wrap(threads)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
