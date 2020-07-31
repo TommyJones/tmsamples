@@ -1,5 +1,4 @@
 #' Sample a DTM or TCM based on hierarchical multinomial parameters
-#' @keywords internal
 #' @description
 #'   Sample a sparse DTM or TCM based on hierarchical multinomial paramers.
 #' @param theta Matrix where each row is a document, each column is a topic and

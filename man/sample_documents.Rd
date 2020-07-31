@@ -50,4 +50,3 @@ dtm <- sample_documents(
   threads = 1 # threads controls parallel computation
 )
 }
-\keyword{internal}
