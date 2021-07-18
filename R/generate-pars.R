@@ -4,26 +4,26 @@
 #' @param vocab_size Length of the returned vector.
 #' @param magnitude Magnitude, sum total of the returned vector.
 #' @param zipf_par Zipf's law parameter as described
-#'   \href{http://mathworld.wolfram.com/ZipfsLaw.html}{here}.
+#'   \href{https://en.wikipedia.org/wiki/Zipf%27s_law}{here}.
 #' @return Returns a numeric vector of length \code{vocab_size} whose entries
 #'   have the shape described by Zipf's law and sum to \code{magnitude}.
 #' @examples 
 #' z <- generate_zipf(
 #'        10000,
 #'        100,
-#'        1.78
+#'        1.07
 #'      )
 #' plot(log10(seq_along(z)), log10(z))
 #' @export
 generate_zipf <- function(
   vocab_size,
   magnitude,
-  zipf_par = 1.78 # approximate empirical zipf distribution http://mathworld.wolfram.com/ZipfsLaw.html
+  zipf_par = 1.07 # approximate empirical zipf distribution https://en.wikipedia.org/wiki/Zipf%27s_law
 ) {
 
   # make a beta that follows zipf's law
 
-  zipf_fun <- function(v, zipf_par) 1/(1:v * log(zipf_par * v) )
+  zipf_fun <- function(v, zipf_par) 1/((1:v) ^ zipf_par)
 
   zipf_law <- zipf_fun(
     v = vocab_size,

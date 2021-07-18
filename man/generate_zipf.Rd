@@ -4,15 +4,12 @@
 \alias{generate_zipf}
 \title{Generate a Vector Following Zipf's Law.}
 \usage{
-generate_zipf(vocab_size, magnitude, zipf_par = 1.78)
+generate_zipf(vocab_size, magnitude, zipf_par = 1.07)
 }
 \arguments{
 \item{vocab_size}{Length of the returned vector.}
 
 \item{magnitude}{Magnitude, sum total of the returned vector.}
-
-\item{zipf_par}{Zipf's law parameter as described
-\href{http://mathworld.wolfram.com/ZipfsLaw.html}{here}.}
 }
 \value{
 Returns a numeric vector of length \code{vocab_size} whose entries
@@ -26,7 +23,7 @@ Generate a vector following Zipf's law. Can be used as a
 z <- generate_zipf(
        10000,
        100,
-       1.78
+       1.07
      )
 plot(log10(seq_along(z)), log10(z))
 }
