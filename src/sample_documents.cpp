@@ -34,84 +34,84 @@ using namespace Rcpp;
 //'   represent tokens and i,j entries are the count of token j in document i.
 // [[Rcpp::export]]
 arma::sp_mat sample_documents_c(
-  const NumericMatrix theta,
-  const NumericMatrix phi,
-  const std::vector<std::size_t> doc_lengths,
-  const int seed,
-  const bool verbose = true,
-  std::size_t threads = 1 // not constant in case user provided is wrong
+    const NumericMatrix theta,
+    const NumericMatrix phi,
+    const std::vector<std::size_t> doc_lengths,
+    const int seed,
+    const bool verbose = true,
+    std::size_t threads = 1 // not constant in case user provided is wrong
 ) {
-
+  
   // check consistency of inputs
   if ( theta.rows() != doc_lengths.size())
     stop("nrow(theta) must equal length(doc_lengths)");
-
+  
   if (threads > doc_lengths.size())
     threads = doc_lengths.size();
-
+  
   // generate some variables
   auto Nd = theta.rows();
   auto Nv = phi.cols();
-
+  
   auto phi_list = mat_to_vec(phi, true);
   auto theta_list = mat_to_vec(theta, true);
-
+  
   arma::sp_mat out(Nv, Nd);
   
   dqrng::xoshiro256plus rng(seed);
-
+  
   // parallel loop over documents to fill in counts
   RcppThread::parallelFor(
     0,
     Nd,
     [&](std::size_t d) {
-
+      
       // get a thread-specific random seed
       dqrng::xoshiro256plus lrng(rng);      // make thread local copy of rng 
       lrng.long_jump(d + 1);  // advance rng by 1 ... ncores jumps
       
       // initialize a couple variables
       int z; // placeholder for topic sampled
-
+      
       int w; // placeholder for token sampled
       
       double u; // placeholder for uniform random var
-
+      
       dqrng::uniform_distribution unif(0.0, 1.0); // Uniform distribution [0,1)
-
+      
       // loop for that document's length
       for (std::size_t n = 0; n < doc_lengths[d]; n++) {
-
+        
         // sample a topic, z
         u = unif(lrng);
         
         z = sample_one(theta_list[d], u);
-
+        
         // given z, sample a token w
         u = unif(lrng);
         
         w = sample_one(phi_list[z], u);
-
+        
         // add the w, d term in the output matrix
         out(w, d) = out(w, d) + 1;
-
+        
       } // end loop over tokens
       
       RcppThread::checkUserInterrupt();
       
       // progress bar
       if (verbose) {
-        RcppThread::Rcout << "=";
+        RcppThread::Rcout << (int)((double)d/double(Nd) * 100.0) << "%\r";
       }
-
+      
     }, // end parallel loop over documents
-  threads);
-
+    threads);
+  
   // Prepare outputs and expel from the function
   out = out.t();
-
+  
   return out;
-
+  
 }
 
 

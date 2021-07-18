@@ -9,6 +9,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // sample_documents_c
 arma::sp_mat sample_documents_c(const NumericMatrix theta, const NumericMatrix phi, const std::vector<std::size_t> doc_lengths, const int seed, const bool verbose, std::size_t threads);
 static SEXP _tmsamples_sample_documents_c_try(SEXP thetaSEXP, SEXP phiSEXP, SEXP doc_lengthsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP threadsSEXP) {
