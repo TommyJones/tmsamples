@@ -101,7 +101,7 @@ arma::sp_mat sample_documents_c(
       
       // progress bar
       if (verbose) {
-        RcppThread::Rcout << (int)((double)d/double(Nd) * 100.0) << "%\r";
+        RcppThread::Rcout << (int)ceil((double)d/double(Nd) * 100.0) << "%\r";
       }
       
     }, // end parallel loop over documents
